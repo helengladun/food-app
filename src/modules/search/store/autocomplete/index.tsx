@@ -6,6 +6,7 @@ export interface IAutocompleteState {
     suggestions: string[],
     error: any,
 }
+
 const initialState: IAutocompleteState = {
     isLoading: false,
     suggestions: [],

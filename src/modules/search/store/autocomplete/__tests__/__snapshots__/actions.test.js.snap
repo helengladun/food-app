@@ -1,0 +1,25 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`autocomplete actions autocomplete failed Dispatches the autocomplete failed action 1`] = `
+Array [
+  Object {
+    "error": undefined,
+    "payload": Object {
+      "isLoading": false,
+    },
+    "type": "@@search/AUTOCOMPLETE_FAILURE",
+  },
+]
+`;
+
+exports[`autocomplete actions autocomplete success Dispatches the autocomplete success action 1`] = `
+Array [
+  Object {
+    "payload": Object {
+      "isLoading": false,
+      "suggestions": undefined,
+    },
+    "type": "@@search/AUTOCOMPLETE_SUCCESS",
+  },
+]
+`;

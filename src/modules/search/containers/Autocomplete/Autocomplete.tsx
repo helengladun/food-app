@@ -1,8 +1,8 @@
-import React, { Component } from 'react';
+import React, {Component, Fragment} from 'react';
 import Autosuggest from 'react-autosuggest';
 import { autocompleteEffect } from '../../store/autocomplete/effects';
 import { connect } from 'react-redux';
-import { IApplicationState } from "../../store";
+import { IApplicationState } from "../../../../store/rootReducer";
 import { getSuggestionValue, renderSuggestion } from './utils';
 
 interface PropsFromDispatch {
@@ -16,7 +16,8 @@ interface PropsFromState {
 }
 
 interface IProps extends PropsFromDispatch, PropsFromState {
-
+    // getTheError? : (value: string) => void;
+    // getTheError : any;
 }
 
 class Autocomplete extends Component<IProps> {
@@ -39,7 +40,6 @@ class Autocomplete extends Component<IProps> {
     };
 
     onSuggestionsClearRequested = () => {
-        // this.props.autocompleteEffect('');
         this.setState({
             value: ''
         });
@@ -53,7 +53,14 @@ class Autocomplete extends Component<IProps> {
     render() {
         const { value }: any = this.state;
         console.log(this.props); // why undefined here?
+
+        const {errors} = this.props;
         const suggestions  = this.getSuggestionsFromProps(this.props);
+
+        // throw errors to the parent
+        // if (errors) {
+        //     this.props.getTheError(errors);
+        // }
 
         const inputProps = {
             placeholder: 'Type a product',
@@ -62,22 +69,25 @@ class Autocomplete extends Component<IProps> {
         };
 
         return (
-            <Autosuggest
-                suggestions={suggestions}
-                onSuggestionsFetchRequested={this.onSuggestionsFetchRequested}
-                onSuggestionsClearRequested={this.onSuggestionsClearRequested}
-                getSuggestionValue={getSuggestionValue}
-                renderSuggestion={renderSuggestion}
-                inputProps={inputProps}
-            />
+            <Fragment>
+                <Autosuggest
+                    suggestions={suggestions}
+                    onSuggestionsFetchRequested={this.onSuggestionsFetchRequested}
+                    onSuggestionsClearRequested={this.onSuggestionsClearRequested}
+                    getSuggestionValue={getSuggestionValue}
+                    renderSuggestion={renderSuggestion}
+                    inputProps={inputProps}
+                />
+                {errors && <span>{errors}</span>}
+            </Fragment>
         );
     }
 }
 
-const mapStateToProps = ({autocomplete}: IApplicationState) => ({
-    isLoading: autocomplete.isLoading,
-    suggestions: autocomplete.suggestions,
-    errors: autocomplete.error
+const mapStateToProps = ({search}: IApplicationState) => ({
+    isLoading: search.autocomplete.isLoading,
+    suggestions: search.autocomplete.suggestions,
+    errors: search.autocomplete.error
 });
 
 const mapDispatchToProps: PropsFromDispatch = {
