@@ -1,0 +1,22 @@
+export enum GetRecipesTypes {
+    GET_RECIPES = '@@search/GETRECIPES',
+    GET_RECIPES_SUCCESS = '@@search/GETRECIPES_SUCCESS',
+    GET_RECIPES_FAILURE = '@@search/GETRECIPES_FAILURE'
+}
+
+class GetRecipesAction {
+    readonly type = GetRecipesTypes.GET_RECIPES;
+    constructor(public payload: {isLoading: boolean}) {};
+}
+
+class GetRecipesSuccessAction {
+    readonly type = GetRecipesTypes.GET_RECIPES_SUCCESS;
+    constructor(public payload: {recipes: string[], isLoading: boolean }) {}
+}
+
+class GetRecipesFailureAction {
+    readonly type = GetRecipesTypes.GET_RECIPES_FAILURE;
+    constructor(public payload: {isLoading: boolean}, public error: []) {}
+}
+
+export type GetRecipesActions = GetRecipesAction | GetRecipesSuccessAction | GetRecipesFailureAction;

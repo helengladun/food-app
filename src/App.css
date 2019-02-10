@@ -9,13 +9,45 @@
 
 .App-header {
   background-color: #282c34;
-  min-height: 100vh;
+  min-height: 20vh;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   font-size: calc(10px + 2vmin);
   color: white;
+}
+
+.App-header nav ul {
+  list-style-type: none;
+}
+
+main {
+  background-color: #282c34;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+}
+
+button#find {
+  background: #0074D9;
+  min-width: 150px;
+  height: 50px;
+  color: #ffffff;
+  font-size: 14px;
+  outline: none;
+  margin-left: 20px;
+  cursor: pointer;
+}
+
+button#find:hover {
+  /*background: darken(#0074D9, 5%);*/
+}
+
+.search-box {
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .App-link {

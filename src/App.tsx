@@ -1,19 +1,31 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import './App.css';
-import Search from "./modules/search";
+import {Router, Route, Switch, withRouter, RouteComponentProps} from "react-router-dom";
+import Autocomplete from "./modules/search/containers/Autocomplete/Autocomplete";
+import Recipes from "./modules/search/containers/Recipes/Recipes";
+import { history } from './store'
 
-class App extends Component {
+interface IProps {
+}
+
+class App extends Component<IProps & RouteComponentProps<any>> {
   render() {
 
       return (
           <div className="App">
-              <header className="App-header">
-                  <Search/>
-                  <button id="find">Find</button>
-              </header>
+              <main>
+                  <Router history={history}>
+                      <Fragment>
+                          <Switch>
+                              <Route exact path="/" component={Autocomplete} />
+                              <Route path="/recipes" component={Recipes} />
+                          </Switch>
+                      </Fragment>
+                  </Router>
+              </main>
           </div>
       );
   }
 }
 
-export default App;
+export default withRouter(App);

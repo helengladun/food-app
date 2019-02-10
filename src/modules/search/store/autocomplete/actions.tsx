@@ -19,8 +19,15 @@ export const autocompleteSuccess: ActionCreator<AutocompleteActions> = (value: s
 export const autocompleteFailure: ActionCreator<AutocompleteActions> = (errors: []) => ({
     type: AutocompleteTypes.AUTOCOMPLETE_FAILURE,
     payload: {
-        isLoading: false,
+        isLoading: false
     },
     error: errors
+});
+
+export const autocompleteChangeSearchValue: ActionCreator<AutocompleteActions> = (value: string) => ({
+    type: AutocompleteTypes.AUTOCOMPLETE_CHANGE_SEARCH_VALUE,
+    payload: {
+        searchValue: value
+    }
 });
 
