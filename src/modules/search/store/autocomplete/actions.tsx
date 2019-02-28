@@ -31,3 +31,10 @@ export const autocompleteChangeSearchValue: ActionCreator<AutocompleteActions> =
     }
 });
 
+export const autocompleteClearSearchValue: ActionCreator<AutocompleteActions> = () => ({
+  type: AutocompleteTypes.AUTOCOMPLETE_CLEAR_SEARCH_VALUE,
+  payload: {
+    searchValue: ''
+  }
+});
+

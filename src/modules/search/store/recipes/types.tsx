@@ -1,7 +1,7 @@
 export enum GetRecipesTypes {
-    GET_RECIPES = '@@search/GETRECIPES',
-    GET_RECIPES_SUCCESS = '@@search/GETRECIPES_SUCCESS',
-    GET_RECIPES_FAILURE = '@@search/GETRECIPES_FAILURE'
+    GET_RECIPES = '@@search/GET_RECIPES',
+    GET_RECIPES_SUCCESS = '@@search/GET_RECIPES_SUCCESS',
+    GET_RECIPES_FAILURE = '@@search/GET_RECIPES_FAILURE',
 }
 
 class GetRecipesAction {

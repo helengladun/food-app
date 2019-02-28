@@ -39,6 +39,11 @@ export const reducer: Reducer<IAutocompleteState> = (state = initialState, actio
                 ...state,
                 searchValue: action.payload.searchValue
             };
+        case AutocompleteTypes.AUTOCOMPLETE_CLEAR_SEARCH_VALUE:
+            return {
+                ...state,
+                searchValue: action.payload.searchValue
+            };
         default:
             return state;
     }

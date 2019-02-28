@@ -27,8 +27,7 @@ class Recipes extends Component<IProps, IState> {
     }
 
     componentDidMount() {
-        const { searchValue } = this.props;
-        this.props.getRecipesEffect(searchValue);
+        this.props.getRecipesEffect(location.search);
     }
 
     render() {

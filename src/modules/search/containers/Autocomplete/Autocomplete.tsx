@@ -1,16 +1,16 @@
-import React, {Component} from 'react';
+import React, {Component, Fragment} from 'react';
 import Autosuggest from 'react-autosuggest'; // @TODO colored underlining
 import { autocompleteEffect } from '../../store/autocomplete/effects';
 import { connect } from 'react-redux';
 import { IApplicationState } from "../../../../store/rootReducer";
 import { getSuggestionValue, renderSuggestion } from './utils';
-import { Push, push } from 'connected-react-router';
-import { autocompleteChangeSearchValue } from '../../store/autocomplete/actions';
+import { autocompleteChangeSearchValue, autocompleteClearSearchValue } from '../../store/autocomplete/actions';
+import { createSelector } from "reselect";
 
 interface PropsFromDispatch {
-    autocompleteEffect: any;
-    autocompleteChangeSearchValue: any,
-    push: Push
+  autocompleteEffect: any;
+  autocompleteChangeSearchValue: any,
+  autocompleteClearSearchValue: any
 }
 
 interface PropsFromState {
@@ -20,29 +20,20 @@ interface PropsFromState {
     errors: [] | undefined
 }
 
-export interface IState {
-    value: string
-}
-
 interface IProps extends PropsFromDispatch, PropsFromState {
 }
 
-class Autocomplete extends Component<IProps, IState> {
+class Autocomplete extends Component<IProps> {
     constructor(props: IProps) {
         super(props);
-
-        this.state = {
-            value: ''
-        }
     }
 
     onChange = (event: any, { newValue }: any): void => {
-        this.props.autocompleteChangeSearchValue(newValue);
-        // if (!newValue) {
-        //     return;
-        // } else {
-        //     autocompleteChangeSearchValue(newValue);
-        // }
+        if (!newValue) {
+          this.props.autocompleteClearSearchValue();
+        } else {
+            this.props.autocompleteChangeSearchValue(newValue);
+        }
     };
 
     onSuggestionsFetchRequested = ({ value }: any): void => {
@@ -58,13 +49,6 @@ class Autocomplete extends Component<IProps, IState> {
         return suggestions ? suggestions : [];
     };
 
-    clickHandler = () => {
-        this.props.push({
-            pathname: '/recipes'
-            // search: `?q=${this.props.searchValue}`
-        });
-    };
-
     render() {
         const {errors, searchValue} = this.props;
         const suggestions  = this.getSuggestionsFromProps(this.props);
@@ -76,7 +60,7 @@ class Autocomplete extends Component<IProps, IState> {
         };
 
         return (
-            <div className="search-box">
+            <Fragment>
                 <Autosuggest
                     suggestions={suggestions}
                     onSuggestionsFetchRequested={this.onSuggestionsFetchRequested}
@@ -86,23 +70,28 @@ class Autocomplete extends Component<IProps, IState> {
                     inputProps={inputProps}
                 />
                 {errors && <span>{errors}</span>}
-                <button id="find" onClick={this.clickHandler}>Find</button>
-            </div>
+            </Fragment>
         );
     }
 }
 
+const getSuggestionsSelector = (autocomplete: any) => autocomplete.suggestions;
+
+export const getSuggestions = createSelector(
+  [ getSuggestionsSelector ],
+  (suggestions) => suggestions);
+
 const mapStateToProps = ({search}: IApplicationState) => ({
     searchValue: search.autocomplete.searchValue,
     isLoading: search.autocomplete.isLoading,
-    suggestions: search.autocomplete.suggestions,
+    suggestions: getSuggestions(search.autocomplete),
     errors: search.autocomplete.error
 });
 
 const mapDispatchToProps: PropsFromDispatch = {
-    autocompleteEffect,
-    autocompleteChangeSearchValue,
-    push
+  autocompleteEffect,
+  autocompleteChangeSearchValue,
+  autocompleteClearSearchValue
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Autocomplete);
